@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import React, { useState } from "react";
+import "./App.css";
+import AppointmentForm from "./Components/AppointmentForm";
+import AppointmentList from "./Components/AppointmentList";
+
+const App = () => {
+    const [appointments, setAppointments] = useState([]);
+
+    const addAppointment = (appointment) => {
+        setAppointments([...appointments, appointment]);
+    };
+
+    const deleteAppointment = (index) => {
+        const deletedAppointments = [...appointments];
+        deletedAppointments.splice(index, 1);
+        setAppointments(deletedAppointments);
+    };
+
+    const editAppointment = (index, editedName, editedDate) => {
+        const updatedAppointments = [...appointments];
+        updatedAppointments[index] = {
+            name: editedName,
+            date: editedDate,
+        };
+        setAppointments(updatedAppointments);
+    };
+
+    const clearAppointments = () => {
+        setAppointments([]);
+    };
+
+    return (
+        <div>
+            <h1 className="mt-5">Book Your Appointment</h1>
+            <AppointmentForm addAppointment={addAppointment} />
+            <AppointmentList
+                appointments={appointments}
+                deleteAppointment={deleteAppointment}
+                clearAppointments={clearAppointments}
+                editAppointment={editAppointment}
+            />
+        </div>
+    );
+};
 
 export default App;
